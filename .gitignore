@@ -13,6 +13,5 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-# (Opcional) Si tu modelo best.onnx pesa más de 100MB, 
-# GitHub no te dejará subirlo. Si es así, descomenta la línea de abajo:
-# src/services/best.onnx
+# Microservicio Python
+api_yolo11l/__pycache__/

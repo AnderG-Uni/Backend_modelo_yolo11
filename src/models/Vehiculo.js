@@ -47,11 +47,6 @@ const vehiculoSchema = new mongoose.Schema({
     versionKey: false // Evita que Mongoose guarde el campo '__v' (metadatos internos)
 });
 
-// ==========================================
-// ÍNDICES PARA ALTO RENDIMIENTO (Buenas Prácticas)
-// ==========================================
-// Al poner index: true en la Placa, las búsquedas cuando la cámara detecte un vehículo serán ultrarrápidas
-vehiculoSchema.index({ Placa: 1 });
 
 // 3. Exportar el Modelo
 // El tercer parámetro 'vehiculos' fuerza a Mongoose a usar el nombre exacto de tu colección en Compass

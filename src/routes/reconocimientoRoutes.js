@@ -1,13 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const reconocimientoController = require('../controllers/reconocimientoController');
-const upload = require('../middlewares/uploadMiddleware');
+const multer = require('multer');
+const { escanearPlaca } = require('../controllers/reconocimientoController');
+// Importamos el servicio directamente para llamarlo rápido
+const iaService = require('../services/iaService');
 
-/**
- * @route   POST /api/v1/reconocimiento/escanear
- * @desc    Recibe un frame de video, procesa la IA y valida acceso
- */
-// El middleware 'upload.single('imagen')' extrae el archivo que el frontend envió con el nombre 'imagen'
-router.post('/escanear', upload.single('imagen'), reconocimientoController.escanearPlaca);
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 5 * 1024 * 1024 }
+});
+
+router.post('/escanear', upload.single('imagen'), escanearPlaca);
+
+// NUEVA RUTA PARA CANCELAR TODO
+router.post('/cancelar', (req, res) => {
+    iaService.detenerEscaneo();
+    res.status(200).json({ estado: 'OK', mensaje: 'Proceso abortado' });
+});
 
 module.exports = router;

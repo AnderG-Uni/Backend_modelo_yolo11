@@ -38,6 +38,30 @@ const registrar = async (req, res) => {
     }
 };
 
+
+//Controlador para obtener la lista de vehículos registrados con paginación
+const obtenerTodos = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        const { vehiculos, total } = await vehiculoService.obtenerVehiculosPaginados(page, limit);
+
+        res.status(200).json({
+            estado: 'OK',
+            datos: vehiculos,
+            paginacion: {
+                totalRegistros: total,
+                paginaActual: page,
+                totalPaginas: Math.ceil(total / limit)
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ estado: 'FAIL', error: 'Error al obtener la lista de vehículos' });
+    }
+};
+
 module.exports = {
-    registrar
+    registrar,
+    obtenerTodos
 };

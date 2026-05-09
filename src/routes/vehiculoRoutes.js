@@ -7,5 +7,6 @@ const vehiculoController = require('../controllers/vehiculoController');
  * @desc    Registra un nuevo vehículo en la base de datos
  */
 router.post('/registrar', vehiculoController.registrar);
+router.get('/', vehiculoController.obtenerTodos);
 
 module.exports = router;
