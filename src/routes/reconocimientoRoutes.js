@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const { escanearPlaca } = require('../controllers/reconocimientoController');
-// Importamos el servicio directamente para llamarlo rápido
+const { escanearPlaca, registrarManual, registroIngresoVisitante, registroSalidaVisitante } = require('../controllers/reconocimientoController');
 const iaService = require('../services/iaService');
 
 const upload = multer({
@@ -12,10 +11,14 @@ const upload = multer({
 
 router.post('/escanear', upload.single('imagen'), escanearPlaca);
 
-// NUEVA RUTA PARA CANCELAR TODO
-router.post('/cancelar', (req, res) => {
-    iaService.detenerEscaneo();
-    res.status(200).json({ estado: 'OK', mensaje: 'Proceso abortado' });
-});
+router.post('/manual', registrarManual);
+
+router.post('/cancelar', (req, res) => { res.status(200).json({ estado: 'OK', mensaje: 'Proceso abortado desde el cliente' }); });
+
+// para registrar ingresos de visitantes autorizados (sin placa o con placa no registrada)
+router.post('/registro-ingreso', upload.single('imagen'), registroIngresoVisitante);
+
+// Registrar salida de visitantes (sin placa o con placa no registrada)
+router.post('/registro-salida-visitante', express.json(), registroSalidaVisitante);
 
 module.exports = router;

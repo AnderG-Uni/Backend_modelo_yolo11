@@ -6,6 +6,7 @@ const rutasHistorial = require('./src/routes/historialRoutes');
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +22,7 @@ app.get('/api/v1/health', (req, res) => {
 app.use('/api/v1/vehiculos', rutasVehiculos);
 app.use('/api/v1/reconocimiento', rutasReconocimiento);
 app.use('/api/v1/historial', rutasHistorial);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use((req, res, next) => {
     res.status(404).json({ error: 'Ruta no encontrada' });

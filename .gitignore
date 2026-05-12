@@ -15,3 +15,6 @@ Thumbs.db
 
 # Microservicio Python
 api_yolo11l/__pycache__/
+
+#imagenes
+uploads/visitantes/
